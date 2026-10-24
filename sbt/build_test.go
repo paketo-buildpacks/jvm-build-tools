@@ -1,0 +1,236 @@
+/*
+ * Copyright 2018-2020 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package sbt_test
+
+import (
+	"os"
+	"path/filepath"
+	"testing"
+
+	"github.com/paketo-buildpacks/libpak/sbom"
+
+	"github.com/buildpacks/libcnb"
+	. "github.com/onsi/gomega"
+	"github.com/paketo-buildpacks/build-tools/libbs"
+	"github.com/sclevine/spec"
+
+	"github.com/paketo-buildpacks/build-tools/sbt"
+)
+
+func testBuild(t *testing.T, context spec.G, it spec.S) {
+	var (
+		Expect = NewWithT(t).Expect
+
+		ctx      libcnb.BuildContext
+		sbtBuild sbt.Build
+	)
+
+	it.Before(func() {
+		var err error
+
+		ctx.Application.Path, err = os.MkdirTemp("", "build-application")
+		Expect(err).NotTo(HaveOccurred())
+
+		ctx.Layers.Path, err = os.MkdirTemp("", "build-layers")
+		Expect(err).NotTo(HaveOccurred())
+		sbtBuild = sbt.Build{ApplicationFactory: &FakeApplicationFactory{}}
+
+		t.Setenv("BP_ARCH", "amd64")
+	})
+
+	it.After(func() {
+		Expect(os.RemoveAll(ctx.Application.Path)).To(Succeed())
+		Expect(os.RemoveAll(ctx.Layers.Path)).To(Succeed())
+	})
+
+	context("BP_SBT_REPOSITORIES_FILE configuration is set", func() {
+		it.Before(func() {
+			ctx.Buildpack.Metadata = map[string]interface{}{
+				"configurations": []map[string]interface{}{
+					{"name": "BP_SBT_REPOSITORIES_FILE", "default": "/workspace/repositories"},
+				},
+			}
+		})
+
+		it("sets the settings path", func() {
+			Expect(os.WriteFile(filepath.Join(ctx.Application.Path, "sbt"), []byte{}, 0644)).To(Succeed())
+			ctx.StackID = "test-stack-id"
+
+			result, err := sbtBuild.Build(ctx)
+			Expect(err).NotTo(HaveOccurred())
+
+			Expect(result.Layers[1].(libbs.Application).Arguments).To(Equal([]string{
+				"-Dsbt.repository.config=/workspace/repositories",
+				"-Dsbt.override.build.repos=true",
+			}))
+		})
+	})
+
+	context("BP_SBT_REPOSITORIES_FILE env var is set", func() {
+		it.Before(func() {
+			t.Setenv("BP_SBT_REPOSITORIES_FILE", "/workspace/repositories")
+		})
+
+		it("sets the settings path", func() {
+			Expect(os.WriteFile(filepath.Join(ctx.Application.Path, "sbt"), []byte{}, 0644)).To(Succeed())
+			ctx.StackID = "test-stack-id"
+
+			result, err := sbtBuild.Build(ctx)
+			Expect(err).NotTo(HaveOccurred())
+
+			Expect(result.Layers[1].(libbs.Application).Arguments).To(Equal([]string{
+				"-Dsbt.repository.config=/workspace/repositories",
+				"-Dsbt.override.build.repos=true",
+			}))
+		})
+	})
+
+	it("does not contribute distribution if wrapper exists", func() {
+		Expect(os.WriteFile(filepath.Join(ctx.Application.Path, "sbt"), []byte{}, 0644)).To(Succeed())
+		ctx.StackID = "test-stack-id"
+
+		result, err := sbtBuild.Build(ctx)
+		Expect(err).NotTo(HaveOccurred())
+
+		fi, err := os.Stat(filepath.Join(ctx.Application.Path, "sbt"))
+		Expect(err).NotTo(HaveOccurred())
+		Expect(fi.Mode()).To(BeEquivalentTo(0755))
+
+		Expect(result.Layers).To(HaveLen(2))
+		Expect(result.Layers[0].Name()).To(Equal("cache"))
+		Expect(result.Layers[1].Name()).To(Equal("application"))
+		Expect(result.Layers[1].(libbs.Application).Command).To(Equal(filepath.Join(ctx.Application.Path, "sbt")))
+	})
+
+	it("contributes distribution for API 0.7+", func() {
+		ctx.Buildpack.Metadata = map[string]interface{}{
+			"dependencies": []map[string]interface{}{
+				{
+					"id":      "sbt",
+					"version": "1.1.1",
+					"stacks":  []interface{}{"test-stack-id"},
+					"cpes":    []string{"cpe:2.3:a:lightbend:sbt:1.5.5:*:*:*:*:*:*:*"},
+					"purl":    "pkg:generic/sbt@1.5.5",
+				},
+			},
+		}
+		ctx.StackID = "test-stack-id"
+		result, err := sbtBuild.Build(ctx)
+		Expect(err).NotTo(HaveOccurred())
+		Expect(result.Layers).To(HaveLen(3))
+		Expect(result.Layers[0].Name()).To(Equal("sbt"))
+		Expect(result.Layers[1].Name()).To(Equal("cache"))
+		Expect(result.Layers[2].Name()).To(Equal("application"))
+		Expect(result.Layers[2].(libbs.Application).Command).To(Equal(filepath.Join(ctx.Layers.Path, "sbt", "bin", "sbt")))
+
+		Expect(result.BOM.Entries).To(HaveLen(1))           //nolint:staticcheck // hold off on the BOM migration for now
+		Expect(result.BOM.Entries[0].Name).To(Equal("sbt")) //nolint:staticcheck // hold off on the BOM migration for now
+		Expect(result.BOM.Entries[0].Build).To(BeTrue())    //nolint:staticcheck // hold off on the BOM migration for now
+		Expect(result.BOM.Entries[0].Launch).To(BeFalse())  //nolint:staticcheck // hold off on the BOM migration for now
+	})
+
+	it("contributes distribution for API <=0.6", func() {
+		ctx.Buildpack.Metadata = map[string]interface{}{
+			"dependencies": []map[string]interface{}{
+				{
+					"id":      "sbt",
+					"version": "1.1.1",
+					"stacks":  []interface{}{"test-stack-id"},
+				},
+			},
+		}
+		ctx.StackID = "test-stack-id"
+		ctx.Buildpack.API = "0.6"
+
+		result, err := sbtBuild.Build(ctx)
+		Expect(err).NotTo(HaveOccurred())
+
+		Expect(result.Layers).To(HaveLen(3))
+		Expect(result.Layers[0].Name()).To(Equal("sbt"))
+		Expect(result.Layers[1].Name()).To(Equal("cache"))
+		Expect(result.Layers[2].Name()).To(Equal("application"))
+		Expect(result.Layers[2].(libbs.Application).Command).To(Equal(filepath.Join(ctx.Layers.Path, "sbt", "bin", "sbt")))
+
+		Expect(result.BOM.Entries).To(HaveLen(1))           //nolint:staticcheck // hold off on the BOM migration for now
+		Expect(result.BOM.Entries[0].Name).To(Equal("sbt")) //nolint:staticcheck // hold off on the BOM migration for now
+		Expect(result.BOM.Entries[0].Build).To(BeTrue())    //nolint:staticcheck // hold off on the BOM migration for now
+		Expect(result.BOM.Entries[0].Launch).To(BeFalse())  //nolint:staticcheck // hold off on the BOM migration for now
+	})
+
+	context("BP_SBT_VERSION configuration is set", func() {
+		it.Before(func() {
+			ctx.Buildpack.Metadata = map[string]interface{}{
+				"configurations": []map[string]interface{}{
+					{"name": "BP_SBT_VERSION", "default": "1"},
+				},
+				"dependencies": []map[string]interface{}{
+					{
+						"id":      "sbt",
+						"version": "1.1.1",
+						"stacks":  []interface{}{"test-stack-id"},
+					},
+					{
+						"id":      "sbt",
+						"version": "2.0.0",
+						"stacks":  []interface{}{"test-stack-id"},
+					},
+				},
+			}
+			ctx.StackID = "test-stack-id"
+		})
+
+		it("resolves the 1.x line by default", func() {
+			result, err := sbtBuild.Build(ctx)
+			Expect(err).NotTo(HaveOccurred())
+
+			dist := result.Layers[0].(sbt.Distribution)
+			Expect(dist.LayerContributor.Dependency.Version).To(Equal("1.1.1"))
+		})
+
+		context("BP_SBT_VERSION env var is set", func() {
+			it.Before(func() {
+				t.Setenv("BP_SBT_VERSION", "2.0.0")
+			})
+
+			it("resolves the requested version", func() {
+				result, err := sbtBuild.Build(ctx)
+				Expect(err).NotTo(HaveOccurred())
+
+				dist := result.Layers[0].(sbt.Distribution)
+				Expect(dist.LayerContributor.Dependency.Version).To(Equal("2.0.0"))
+			})
+		})
+	})
+}
+
+type FakeApplicationFactory struct{}
+
+func (f *FakeApplicationFactory) NewApplication(
+	_ map[string]interface{},
+	args []string,
+	_ libbs.ArtifactResolver,
+	_ libbs.Cache,
+	command string,
+	_ *libcnb.BOM, //nolint:staticcheck // hold off on the BOM migration for now
+	_ string,
+	_ sbom.SBOMScanner,
+) (libbs.Application, error) {
+	return libbs.Application{
+		Command:   command,
+		Arguments: args,
+	}, nil
+}

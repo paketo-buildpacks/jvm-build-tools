@@ -1,0 +1,335 @@
+# Copyright 2018-2026 the original author or authors.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+api = "0.7"
+
+[buildpack]
+  description = "A Cloud Native Buildpack that provides build tools (Gradle, Maven, sbt) and builds JVM applications with them"
+  homepage = "https://github.com/paketo-buildpacks/build-tools"
+  id = "paketo-buildpacks/build-tools"
+  keywords = ["java", "gradle", "maven", "sbt", "build-tools"]
+  name = "Paketo Buildpack for Build Tools"
+  sbom-formats = ["application/vnd.syft+json", "application/vnd.cyclonedx+json"]
+  version = "{{.version}}"
+
+  [[buildpack.licenses]]
+    type = "Apache-2.0"
+    uri = "https://github.com/paketo-buildpacks/build-tools/blob/main/LICENSE"
+
+[metadata]
+  include-files = ["LICENSE", "NOTICE", "README.md", "buildpack.toml", "linux/amd64/bin/build", "linux/amd64/bin/detect", "linux/amd64/bin/run", "linux/arm64/bin/build", "linux/arm64/bin/detect", "linux/arm64/bin/run"]
+  pre-package = "scripts/build.sh --target linux/amd64 --target linux/arm64"
+
+  [[metadata.configurations]]
+    build = true
+    default = "-Dmaven.test.skip=true --no-transfer-progress package"
+    description = "the arguments to pass to Maven"
+    name = "BP_MAVEN_BUILD_ARGUMENTS"
+
+  [[metadata.configurations]]
+    build = true
+    default = ""
+    description = "the additionnal arguments (appended to BP_MAVEN_BUILD_ARGUMENTS) to pass to Maven"
+    name = "BP_MAVEN_ADDITIONAL_BUILD_ARGUMENTS"
+
+  [[metadata.configurations]]
+    build = true
+    default = ""
+    description = "the active profiles (comma separated: such as: p1,!p2,?p3) to pass to Maven"
+    name = "BP_MAVEN_ACTIVE_PROFILES"
+
+  [[metadata.configurations]]
+    build = true
+    default = "target/*.[ejw]ar"
+    description = "the built application artifact explicitly.  Supersedes $BP_MAVEN_BUILT_MODULE"
+    name = "BP_MAVEN_BUILT_ARTIFACT"
+
+  [[metadata.configurations]]
+    build = true
+    default = "pom.xml"
+    description = "the location of the main pom.xml file, relative to the application root"
+    detect = true
+    name = "BP_MAVEN_POM_FILE"
+
+  [[metadata.configurations]]
+    build = true
+    description = "the module to find application artifact in"
+    name = "BP_MAVEN_BUILT_MODULE"
+
+  [[metadata.configurations]]
+    build = true
+    default = "false"
+    description = "use maven daemon"
+    name = "BP_MAVEN_DAEMON_ENABLED"
+
+  [[metadata.configurations]]
+    build = true
+    description = "the path to a Maven settings file"
+    name = "BP_MAVEN_SETTINGS_PATH"
+
+  [[metadata.configurations]]
+    build = true
+    default = "3"
+    description = "the Maven version"
+    name = "BP_MAVEN_VERSION"
+
+  [[metadata.configurations]]
+    build = true
+    default = "--no-daemon -Dorg.gradle.welcome=never assemble"
+    description = "the arguments to pass to Gradle"
+    name = "BP_GRADLE_BUILD_ARGUMENTS"
+
+  [[metadata.configurations]]
+    build = true
+    default = ""
+    description = "the additionnal arguments (appended to BP_GRADLE_BUILD_ARGUMENTS) to pass to Gradle"
+    name = "BP_GRADLE_ADDITIONAL_BUILD_ARGUMENTS"
+
+  [[metadata.configurations]]
+    build = true
+    description = "the location of the main build config file, relative to the application root"
+    detect = true
+    name = "BP_GRADLE_BUILD_FILE"
+
+  [[metadata.configurations]]
+    build = true
+    default = "build/libs/*.[jw]ar"
+    description = "the built application artifact explicitly.  Supersedes $BP_GRADLE_BUILT_MODULE"
+    name = "BP_GRADLE_BUILT_ARTIFACT"
+
+  [[metadata.configurations]]
+    build = true
+    description = "the module to find application artifact in"
+    name = "BP_GRADLE_BUILT_MODULE"
+
+  [[metadata.configurations]]
+    build = true
+    description = "the path to a Gradle init script file"
+    name = "BP_GRADLE_INIT_SCRIPT_PATH"
+
+  [[metadata.configurations]]
+    build = true
+    default = "universal:packageBin"
+    description = "the arguments to pass to SBT"
+    name = "BP_SBT_BUILD_ARGUMENTS"
+
+  [[metadata.configurations]]
+    build = true
+    default = "target/universal/*.zip"
+    description = "the built application artifact explicitly.  Supersedes $BP_SBT_BUILT_MODULE"
+    name = "BP_SBT_BUILT_ARTIFACT"
+
+  [[metadata.configurations]]
+    build = true
+    description = "the module to find application artifact in"
+    name = "BP_SBT_BUILT_MODULE"
+
+  [[metadata.configurations]]
+    build = true
+    default = "1"
+    description = "the version of SBT to install"
+    name = "BP_SBT_VERSION"
+
+  [[metadata.configurations]]
+    build = true
+    description = "the path to the SBT repositories file"
+    name = "BP_SBT_REPOSITORIES_FILE"
+
+  [[metadata.configurations]]
+    build = true
+    default = ""
+    description = "colon separated list of glob patterns, matched source files are included"
+    name = "BP_INCLUDE_FILES"
+
+  [[metadata.configurations]]
+    build = true
+    default = ""
+    description = "colon separated list of glob patterns, matched source files are removed"
+    name = "BP_EXCLUDE_FILES"
+
+  [[metadata.configurations]]
+    build = true
+    default = "false"
+    description = "whether to install Yarn/Node binaries based on the presence of a package.json or yarn.lock file"
+    name = "BP_JAVA_INSTALL_NODE"
+
+  [[metadata.configurations]]
+    build = true
+    default = ""
+    description = "configure a project subdirectory to look for `package.json` and `yarn.lock` files"
+    name = "BP_NODE_PROJECT_PATH"
+
+  [[metadata.dependencies]]
+    checksum = "sha256:21bd5da2de49b642904077f38c0efdc7778e92b3ed0889392dca61b97e389607"
+    cpe = "cpe:2.3:a:gradle:gradle:9.8.2:*:*:*:*:*:*:*"
+    id = "gradle"
+    name = "Gradle"
+    purl = "pkg:generic/gradle@9.8.2"
+    sha256 = "21bd5da2de49b642904077f38c0efdc7778e92b3ed0889392dca61b97e389607"
+    source = "https://downloads.gradle.org/distributions/gradle-9.8.2-src.zip"
+    source-checksum = "sha256:96c9aba0564daa2998f578b589eba9ae1f6656e368fde85f7132e05321bab553"
+    stacks = ["io.buildpacks.stacks.bionic", "io.paketo.stacks.tiny", "*"]
+    uri = "https://downloads.gradle.org/distributions/gradle-9.8.2-bin.zip"
+    version = "9.8.2"
+
+    [[metadata.dependencies.licenses]]
+      type = "Apache-2.0"
+      uri = "https://docs.gradle.org/current/userguide/userguide.html#licenses"
+
+  [[metadata.dependencies]]
+    checksum = "sha256:a46cc51bc74fa23fd267c7a0b9132b146dcf526da60d31aa5174e565632e9e0e"
+    cpe = "cpe:2.3:a:apache:maven:3.10.0:*:*:*:*:*:*:*"
+    id = "maven"
+    name = "Apache Maven"
+    purl = "pkg:generic/apache-maven@3.10.0"
+    sha256 = "a46cc51bc74fa23fd267c7a0b9132b146dcf526da60d31aa5174e565632e9e0e"
+    source = "https://repo1.maven.org/maven2/org/apache/maven/apache-maven/3.10.0/apache-maven-3.10.0-src.tar.gz"
+    source-checksum = "sha256:aa4d8ff3b71b636e6826b91695062d909ea6949a27e3442dd2762d8459439df9"
+    stacks = ["io.buildpacks.stacks.bionic", "io.paketo.stacks.tiny", "*"]
+    uri = "https://repo1.maven.org/maven2/org/apache/maven/apache-maven/3.10.0/apache-maven-3.10.0-bin.tar.gz"
+    version = "3.10.0"
+
+    [[metadata.dependencies.licenses]]
+      type = "Apache-2.0"
+      uri = "https://www.apache.org/licenses/"
+
+  [[metadata.dependencies]]
+    checksum = "sha256:951c63267687d418bb9c06c08e25544328583519919b96617aa722f813b19e6f"
+    cpe = "cpe:2.3:a:apache:maven:4.0.0:*:*:*:*:*:*:*"
+    id = "maven"
+    name = "Apache Maven"
+    purl = "pkg:generic/apache-maven@4.0.0"
+    sha256 = "951c63267687d418bb9c06c08e25544328583519919b96617aa722f813b19e6f"
+    source = "https://repo1.maven.org/maven2/org/apache/maven/apache-maven/4.0.0-rc-7/apache-maven-4.0.0-rc-7-src.tar.gz"
+    source-checksum = "sha256:78c18c3cad3f08535581deb496bea811d265f64963ffa0d7f16e78c11f4ca2d0"
+    stacks = ["io.buildpacks.stacks.bionic", "io.paketo.stacks.tiny", "*"]
+    uri = "https://repo1.maven.org/maven2/org/apache/maven/apache-maven/4.0.0-rc-7/apache-maven-4.0.0-rc-7-bin.tar.gz"
+    version = "4.0.0"
+
+    [[metadata.dependencies.licenses]]
+      type = "Apache-2.0"
+      uri = "https://www.apache.org/licenses/"
+
+  [[metadata.dependencies]]
+    arch = "amd64"
+    checksum = "sha256:1a1c2ad0de53669c6d2bf64e2b6bcc7cb96f592c543230f00b4209002b19083c"
+    cpe = "cpe:2.3:a:apache:mvnd:1.0.6:*:*:*:*:*:*:*"
+    id = "mvnd"
+    name = "Apache Maven Daemon"
+    os = "linux"
+    purl = "pkg:generic/apache-mvnd@1.0.6?arch=amd64"
+    sha256 = "1a1c2ad0de53669c6d2bf64e2b6bcc7cb96f592c543230f00b4209002b19083c"
+    source = "https://github.com/apache/maven-mvnd/archive/refs/tags/1.0.6.tar.gz"
+    source-checksum = "sha256:c430af196511a680262dda91750071bbc2d01278fc603a574989fc337b94a894"
+    stacks = ["io.buildpacks.stacks.bionic", "io.paketo.stacks.tiny", "*"]
+    uri = "https://github.com/apache/maven-mvnd/releases/download/1.0.6/maven-mvnd-1.0.6-linux-amd64.zip"
+    version = "1.0.6"
+
+    [[metadata.dependencies.licenses]]
+      type = "Apache-2.0"
+      uri = "https://www.apache.org/licenses/"
+
+  [[metadata.dependencies]]
+    arch = "arm64"
+    checksum = "sha256:f23c319112f9f1ac50082eed2768f24551420fd2f31773045679de1e831588b7"
+    cpe = "cpe:2.3:a:apache:mvnd:1.0.6:*:*:*:*:*:*:*"
+    id = "mvnd"
+    name = "Apache Maven Daemon"
+    os = "linux"
+    purl = "pkg:generic/apache-mvnd@1.0.6?arch=arm64"
+    sha256 = "f23c319112f9f1ac50082eed2768f24551420fd2f31773045679de1e831588b7"
+    source = "https://github.com/apache/maven-mvnd/archive/refs/tags/1.0.6.tar.gz"
+    source-checksum = "sha256:c430af196511a680262dda91750071bbc2d01278fc603a574989fc337b94a894"
+    stacks = ["io.buildpacks.stacks.bionic", "io.paketo.stacks.tiny", "*"]
+    uri = "https://github.com/apache/maven-mvnd/releases/download/1.0.6/maven-mvnd-1.0.6-linux-aarch64.zip"
+    version = "1.0.6"
+
+    [[metadata.dependencies.licenses]]
+      type = "Apache-2.0"
+      uri = "https://www.apache.org/licenses/"
+
+  [[metadata.dependencies]]
+    checksum = "sha256:06806805ffd26232727326216766ed4793b549f8c1e6ffeef2e610db7245b698"
+    cpe = "cpe:2.3:a:lightbend:sbt:1.13.0:*:*:*:*:*:*:*"
+    id = "sbt"
+    name = "Scala SBT"
+    purl = "pkg:generic/sbt@1.13.0"
+    sha256 = "06806805ffd26232727326216766ed4793b549f8c1e6ffeef2e610db7245b698"
+    source = "https://github.com/sbt/sbt/archive/refs/tags/v1.13.0.tar.gz"
+    source-checksum = "sha256:8d9e34e9f7e3c811e3151d2dd0972a540880878f29a90858b5cf485fcfd5d52b"
+    stacks = ["io.buildpacks.stacks.bionic", "io.paketo.stacks.tiny", "*"]
+    uri = "https://github.com/sbt/sbt/releases/download/v1.13.0/sbt-1.13.0.tgz"
+    version = "1.13.0"
+
+    [[metadata.dependencies.licenses]]
+      type = "Apache-2.0"
+      uri = "https://github.com/sbt/sbt/blob/develop/LICENSE"
+
+  [[metadata.dependencies]]
+    checksum = "sha256:d8409a244e97c3839f27c4f435f49421196c126a450d30f4cf53522d39e3c379"
+    cpe = "cpe:2.3:a:lightbend:sbt:2.0.11:*:*:*:*:*:*:*"
+    id = "sbt"
+    name = "Scala SBT"
+    purl = "pkg:generic/sbt@2.0.11"
+    sha256 = "d8409a244e97c3839f27c4f435f49421196c126a450d30f4cf53522d39e3c379"
+    source = "https://github.com/sbt/sbt/archive/refs/tags/v2.0.11.tar.gz"
+    source-checksum = "sha256:f42faf398a6919bbbd37aa3db2d6d5c580883e6dc88bb2ee889e8ee33d104801"
+    stacks = ["io.buildpacks.stacks.bionic", "io.paketo.stacks.tiny", "*"]
+    uri = "https://github.com/sbt/sbt/releases/download/v2.0.11/sbt-2.0.11.tgz"
+    version = "2.0.11"
+
+    [[metadata.dependencies.licenses]]
+      type = "Apache-2.0"
+      uri = "https://github.com/sbt/sbt/blob/develop/LICENSE"
+
+  [[metadata.dependency-constraints]]
+    constraint = "9.*"
+    id = "gradle"
+    patches = 1
+
+  [[metadata.dependency-constraints]]
+    constraint = "3.*"
+    id = "maven"
+    patches = 1
+
+  [[metadata.dependency-constraints]]
+    constraint = "4.*"
+    id = "maven"
+    patches = 1
+
+  [[metadata.dependency-constraints]]
+    constraint = "1.*"
+    id = "mvnd"
+    patches = 1
+
+  [[metadata.dependency-constraints]]
+    constraint = "1.*"
+    id = "sbt"
+    patches = 1
+
+  [[metadata.dependency-constraints]]
+    constraint = "2.*"
+    id = "sbt"
+    patches = 1
+
+[[stacks]]
+  id = "*"
+
+[[targets]]
+  arch = "amd64"
+  os = "linux"
+
+[[targets]]
+  arch = "arm64"
+  os = "linux"
