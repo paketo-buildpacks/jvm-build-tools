@@ -37,7 +37,7 @@ const (
 
 	// DefaultBuildTools matches the order the build tools appear in the java
 	// language family buildpack.
-	DefaultBuildTools = "maven,gradle,sbt"
+	DefaultBuildTools = "gradle,maven,sbt"
 )
 
 var detectorByTool = map[string]libcnb.Detector{
@@ -86,7 +86,7 @@ func DetectorsForTools(tools string) ([]libcnb.Detector, error) {
 
 // SupportedTools returns the names of the build tools this buildpack supports.
 func SupportedTools() []string {
-	return []string{"maven", "gradle", "sbt"}
+	return []string{"gradle", "maven", "sbt"}
 }
 
 func (d Detect) Detect(context libcnb.DetectContext) (libcnb.DetectResult, error) {

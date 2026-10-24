@@ -33,7 +33,7 @@ api = "0.7"
 
   [[metadata.configurations]]
     build = true
-    default = "maven,gradle,sbt"
+    default = "gradle,maven,sbt"
     description = "the build tools this buildpack manages (comma separated, in detection order)"
     name = "BP_BUILD_TOOLS"
 

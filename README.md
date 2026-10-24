@@ -20,7 +20,7 @@ The buildpack will participate if any of the following conditions are met:
 - a Maven `pom.xml` (or `$BP_MAVEN_POM_FILE`) is present
 - an `sbt` launcher, `build.sbt`, or sbt project file is present
 
-Detection precedence is Maven, then Gradle, then sbt, matching the order the
+Detection precedence is Gradle, then Maven, then sbt, matching the order the
 build tools appear in the `java` language family buildpack. The precedence (and
 the set of enabled tools) is controlled by `$BP_BUILD_TOOLS`.
 
@@ -31,8 +31,8 @@ buildpacks from this one source tree, the same way `jvm-vendors` emits one
 buildpack per JVM vendor:
 
 - `paketo-buildpacks/build-tools` - all tools, dependencies for every tool
-- `paketo-buildpacks/maven` - Maven and Maven Daemon only
 - `paketo-buildpacks/gradle` - Gradle only
+- `paketo-buildpacks/maven` - Maven and Maven Daemon only
 - `paketo-buildpacks/sbt` - sbt only
 
 Each generated buildpack gets its own id, name, description and dependency set,
