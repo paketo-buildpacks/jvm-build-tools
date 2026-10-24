@@ -55,16 +55,16 @@ type Build struct {
 func (b Build) Build(context libcnb.BuildContext) (libcnb.BuildResult, error) {
 	pr := libpak.PlanEntryResolver{Plan: context.Plan}
 
-	if _, found, err := pr.Resolve(gradle.PlanEntryGradle); err != nil {
-		return libcnb.BuildResult{}, fmt.Errorf("unable to resolve gradle plan entry\n%w", err)
-	} else if found {
-		return b.gradleBuilder().Build(context)
-	}
-
 	if _, found, err := pr.Resolve(maven.PlanEntryMaven); err != nil {
 		return libcnb.BuildResult{}, fmt.Errorf("unable to resolve maven plan entry\n%w", err)
 	} else if found {
 		return b.mavenBuilder().Build(context)
+	}
+
+	if _, found, err := pr.Resolve(gradle.PlanEntryGradle); err != nil {
+		return libcnb.BuildResult{}, fmt.Errorf("unable to resolve gradle plan entry\n%w", err)
+	} else if found {
+		return b.gradleBuilder().Build(context)
 	}
 
 	if _, found, err := pr.Resolve(sbt.PlanEntrySBT); err != nil {

@@ -20,7 +20,24 @@ The buildpack will participate if any of the following conditions are met:
 - a Maven `pom.xml` (or `$BP_MAVEN_POM_FILE`) is present
 - an `sbt` launcher, `build.sbt`, or sbt project file is present
 
-Detection precedence is Gradle, then Maven, then sbt.
+Detection precedence is Maven, then Gradle, then sbt, matching the order the
+build tools appear in the `java` language family buildpack. The precedence (and
+the set of enabled tools) is controlled by `$BP_BUILD_TOOLS`.
+
+## Emitted buildpacks
+
+`scripts/package.sh` uses `libpak-tools build-build-tools` to emit several
+buildpacks from this one source tree, the same way `jvm-vendors` emits one
+buildpack per JVM vendor:
+
+- `paketo-buildpacks/build-tools` - all tools, dependencies for every tool
+- `paketo-buildpacks/maven` - Maven and Maven Daemon only
+- `paketo-buildpacks/gradle` - Gradle only
+- `paketo-buildpacks/sbt` - sbt only
+
+Each generated buildpack gets its own id, name, description and dependency set,
+and defaults `$BP_BUILD_TOOLS` to the tool it represents. The generated
+buildpacks are packaged as `build/<name>.cnb` and `build/<name>.tgz`.
 
 For the detected tool the buildpack will:
 
@@ -36,6 +53,7 @@ For the detected tool the buildpack will:
 
 | Environment Variable                | Description                                                                                  |
 | ----------------------------------- | -------------------------------------------------------------------------------------------- |
+| `$BP_BUILD_TOOLS`                   | comma separated list of build tools managed by this buildpack, in detection order              |
 | `$BP_GRADLE_BUILD_ARGUMENTS`        | the arguments to pass to Gradle                                                              |
 | `$BP_GRADLE_ADDITIONAL_BUILD_ARGUMENTS` | additional arguments appended to `$BP_GRADLE_BUILD_ARGUMENTS`                            |
 | `$BP_GRADLE_BUILD_FILE`             | the location of the main build config file, relative to the application root                  |

@@ -69,8 +69,8 @@ function main {
     buildpack_type=extension
   fi
 
-  buildpack::archive "${version}" "${buildpack_type}"
-  buildpackage::create "${output}" "${buildpack_type}"
+  buildpackage::create::individual_tools "${output}" "${buildpack_type}" "${version}"
+  buildpackage::create::single_all_tools "${output}" "${buildpack_type}" "${version}"
 }
 
 function usage() {
@@ -110,49 +110,44 @@ function tools::install() {
     util::tools::packager::install \
       --directory "${BIN_DIR}"
   else
-    util::tools::jam::install \
+    util::tools::libpak-tools::install \
       --directory "${BIN_DIR}" \
       --token "${token}"
   fi
 }
 
-function buildpack::archive() {
-  local version
-  version="${1}"
-  buildpack_type="${2}"
-
-  util::print::title "Packaging ${buildpack_type} into ${BUILD_DIR}/buildpack.tgz..."
-
-  if [[ -f "${ROOT_DIR}/.libbuildpack" ]]; then
-    packager \
-      --uncached \
-      --archive \
-      --version "${version}" \
-      "${BUILD_DIR}/buildpack"
-  else
-    jam pack \
-      "--${buildpack_type}" "${ROOT_DIR}/${buildpack_type}.toml"\
-      --version "${version}" \
-      --output "${BUILD_DIR}/buildpack.tgz"
-  fi
-}
-
-function buildpackage::create() {
-  local output
+function buildpackage::create::individual_tools() {
+  local output version
   output="${1}"
   buildpack_type="${2}"
+  version="${3}"
 
-  util::print::title "Packaging ${buildpack_type}... ${output}"
+  util::print::title "Packaging ${buildpack_type}..."
 
-  mkdir ${BUILD_DIR}/cnbdir
-  tar -xvf ${BUILD_DIR}/buildpack.tgz -C ${BUILD_DIR}/cnbdir
+  libpak-tools build-build-tools \
+      --buildpack-id "paketo-buildpacks/maven@${version}" --tools maven \
+      --buildpack-id "paketo-buildpacks/gradle@${version}" --tools gradle \
+      --buildpack-id "paketo-buildpacks/sbt@${version}" --tools sbt \
+      --format file \
+      --buildpack-path . \
+      --output-path "$PWD/build"
+}
 
-  pack \
-    "${buildpack_type}" package "${output}" \
-      --path ${BUILD_DIR}/cnbdir \
-      --format file
+function buildpackage::create::single_all_tools() {
+  local output version
+  output="${1}"
+  buildpack_type="${2}"
+  version="${3}"
 
-  rm -rf ${BUILD_DIR}/cnbdir
+  util::print::title "Packaging ${buildpack_type}..."
+
+  libpak-tools build-build-tools \
+      --single-buildpack \
+      --buildpack-id "paketo-buildpacks/build-tools@${version}" \
+      --include-all-tools \
+      --format file \
+      --buildpack-path . \
+      --output-path "$PWD/build"
 }
 
 main "${@:-}"

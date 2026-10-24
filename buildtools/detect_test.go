@@ -100,9 +100,25 @@ func TestUnitDetectPropagatesErrors(t *testing.T) {
 	}
 }
 
-func TestUnitNewDetectRegistersEveryTool(t *testing.T) {
-	d := buildtools.NewDetect()
-	if len(d.Detectors) != 3 {
-		t.Fatalf("expected 3 detectors, got %d", len(d.Detectors))
+func TestUnitDetectorsForToolsPreservesOrder(t *testing.T) {
+	detectors, err := buildtools.DetectorsForTools("maven, gradle, sbt")
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	if len(detectors) != 3 {
+		t.Fatalf("expected 3 detectors, got %d", len(detectors))
+	}
+}
+
+func TestUnitDetectorsForToolsRejectsUnknownTools(t *testing.T) {
+	if _, err := buildtools.DetectorsForTools("maven,nope"); err == nil {
+		t.Fatal("expected an error")
+	}
+}
+
+func TestUnitDetectorsForToolsRejectsEmptyLists(t *testing.T) {
+	if _, err := buildtools.DetectorsForTools(" , "); err == nil {
+		t.Fatal("expected an error")
 	}
 }
