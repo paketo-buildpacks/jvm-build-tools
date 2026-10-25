@@ -125,7 +125,14 @@ jobs:
       if: ${{  steps.parse_configs.outputs.push_to_dockerhub == 'true' }}
       id: push
       run: |
-        POSTFIX="-dev"
+        # The combined build-tools image is new, so publish it under its final
+        # name. The per-tool images already exist, so publish test variants
+        # until the production switch.
+        if [[ "${{ matrix.buildpack }}" == "build-tools" ]]; then
+          POSTFIX=""
+        else
+          POSTFIX="-dev"
+        fi
         IMAGE="paketobuildpacks/${{ matrix.buildpack }}${POSTFIX}"
         echo "${DOCKERHUB_PASSWORD}" | sudo skopeo login --username "${DOCKERHUB_USERNAME}" --password-stdin ${DOCKERHUB_REGISTRY}
 
