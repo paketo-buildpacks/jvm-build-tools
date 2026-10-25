@@ -28,12 +28,13 @@ import (
 )
 
 func main() {
+	logger := bard.NewLogger(os.Stdout)
 	libpak.Main(
-		buildtools.NewDetect(),
+		buildtools.NewDetect(logger),
 		buildtools.Build{
 			ApplicationFactory:    libbs.NewApplicationFactory(),
 			HomeDirectoryResolver: gradle.OSHomeDirectoryResolver{},
-			Logger:                bard.NewLogger(os.Stdout),
+			Logger:                logger,
 		},
 	)
 }

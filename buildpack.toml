@@ -15,10 +15,10 @@
 api = "0.7"
 
 [buildpack]
-  description = "A Cloud Native Buildpack that provides build tools (Gradle, Maven, sbt) and builds JVM applications with them"
+  description = "A Cloud Native Buildpack that provides build tools (Leiningen, Clojure Tools, Gradle, Maven, sbt) and builds JVM applications with them"
   homepage = "https://github.com/paketo-buildpacks/build-tools"
   id = "paketo-buildpacks/build-tools"
-  keywords = ["java", "gradle", "maven", "sbt", "build-tools"]
+  keywords = ["java", "leiningen", "clojure", "gradle", "maven", "sbt", "build-tools"]
   name = "Paketo Buildpack for Build Tools"
   sbom-formats = ["application/vnd.syft+json", "application/vnd.cyclonedx+json"]
   version = "{{.version}}"
@@ -33,9 +33,55 @@ api = "0.7"
 
   [[metadata.configurations]]
     build = true
-    default = "gradle,maven,sbt"
+    default = "leiningen,clojure-tools,gradle,maven,sbt"
     description = "the build tools this buildpack manages (comma separated, in detection order)"
     name = "BP_BUILD_TOOLS"
+
+  [[metadata.configurations]]
+    build = true
+    default = "uberjar"
+    description = "the arguments to pass to Lein"
+    name = "BP_LEIN_BUILD_ARGUMENTS"
+
+  [[metadata.configurations]]
+    build = true
+    default = "target/*-standalone.jar"
+    description = "the built application artifact explicitly.  Supersedes $BP_LEIN_BUILT_MODULE"
+    name = "BP_LEIN_BUILT_ARTIFACT"
+
+  [[metadata.configurations]]
+    build = true
+    description = "the module to find application artifact in"
+    name = "BP_LEIN_BUILT_MODULE"
+
+  [[metadata.configurations]]
+    build = true
+    default = "-X:uberjar"
+    description = "the arguments to pass to Clojure"
+    name = "BP_CLJ_DEPS_ARGUMENTS"
+
+  [[metadata.configurations]]
+    build = true
+    default = "false"
+    description = "the arguments to enable Tools Build"
+    name = "BP_CLJ_TOOLS_BUILD_ENABLED"
+
+  [[metadata.configurations]]
+    build = true
+    default = "-T:build uber"
+    description = "the arguments to pass to Tools Build"
+    name = "BP_CLJ_TOOLS_BUILD_ARGUMENTS"
+
+  [[metadata.configurations]]
+    build = true
+    default = "target/*.jar"
+    description = "the built application artifact explicitly. Supersedes $BP_CLJ_BUILT_MODULE"
+    name = "BP_CLJ_BUILT_ARTIFACT"
+
+  [[metadata.configurations]]
+    build = true
+    description = "the module to find application artifact in"
+    name = "BP_CLJ_BUILT_MODULE"
 
   [[metadata.configurations]]
     build = true
@@ -177,6 +223,40 @@ api = "0.7"
     name = "BP_NODE_PROJECT_PATH"
 
   [[metadata.dependencies]]
+    checksum = "sha256:61cf3a0786748238bc7d78e24b77a875d8c4c0704c3bc11f7180e979b46bcc2c"
+    cpe = "cpe:2.3:a:leiningen:leiningen:2.13.0:*:*:*:*:*:*:*"
+    id = "lein"
+    name = "Leiningen"
+    purl = "pkg:generic/leiningen@2.13.0"
+    sha256 = "61cf3a0786748238bc7d78e24b77a875d8c4c0704c3bc11f7180e979b46bcc2c"
+    source = "https://github.com/technomancy/leiningen/archive/refs/tags/2.13.0.tar.gz"
+    source-checksum = "sha256:a71aaf44eaf7796198943bd6db7662c99664bb6441f8dc7216d4a87fa4ea4dad"
+    stacks = ["io.buildpacks.stacks.bionic", "io.paketo.stacks.tiny", "*"]
+    uri = "https://raw.githubusercontent.com/technomancy/leiningen/2.13.0/bin/lein"
+    version = "2.13.0"
+
+    [[metadata.dependencies.licenses]]
+      type = "EPL-1.0"
+      uri = "https://github.com/technomancy/leiningen/blob/stable/COPYING"
+
+  [[metadata.dependencies]]
+    checksum = "sha256:5ae63b082ed33bf4c29bf1a8317c5c15249d1bc753676b2f5177fb3804ad6f77"
+    cpe = "cpe:2.3:a:cognitect:clojure:1.12.6:*:*:*:*:*:*:*"
+    id = "clojure"
+    name = "Clojure"
+    purl = "pkg:generic/clojure@1.12.6?arch=amd64"
+    sha256 = "5ae63b082ed33bf4c29bf1a8317c5c15249d1bc753676b2f5177fb3804ad6f77"
+    source = "https://github.com/clojure/clojure/archive/refs/tags/clojure-1.12.6.tar.gz"
+    source-checksum = "sha256:2595fc6196c127352fc1fe4e8a2343cb8a80733b9f2dfd79c669f43adfdc14aa"
+    stacks = ["io.buildpacks.stacks.bionic", "io.paketo.stacks.tiny", "*"]
+    uri = "https://download.clojure.org/install/linux-install-1.12.6.1673.sh"
+    version = "1.12.6"
+
+    [[metadata.dependencies.licenses]]
+      type = "Eclipse Public License - v 1.0"
+      uri = "https://github.com/clojure/clojure/blob/master/epl-v10.html"
+
+  [[metadata.dependencies]]
     checksum = "sha256:21bd5da2de49b642904077f38c0efdc7778e92b3ed0889392dca61b97e389607"
     cpe = "cpe:2.3:a:gradle:gradle:9.8.2:*:*:*:*:*:*:*"
     id = "gradle"
@@ -298,6 +378,16 @@ api = "0.7"
     [[metadata.dependencies.licenses]]
       type = "Apache-2.0"
       uri = "https://github.com/sbt/sbt/blob/develop/LICENSE"
+
+  [[metadata.dependency-constraints]]
+    constraint = "*"
+    id = "lein"
+    patches = 2
+
+  [[metadata.dependency-constraints]]
+    constraint = "*"
+    id = "clojure"
+    patches = 2
 
   [[metadata.dependency-constraints]]
     constraint = "9.*"

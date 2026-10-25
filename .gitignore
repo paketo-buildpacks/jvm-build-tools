@@ -18,4 +18,7 @@ build/
 package/
 scratch/
 dist/
+.bin/
+.idea/
+.DS_Store
 dependency/retrieval/retrieval

@@ -125,6 +125,8 @@ function buildpackage::create::individual_tools() {
   util::print::title "Packaging ${buildpack_type}..."
 
   libpak-tools build-build-tools \
+      --buildpack-id "paketo-buildpacks/leiningen@${version}" --tools leiningen \
+      --buildpack-id "paketo-buildpacks/clojure-tools@${version}" --tools clojure-tools \
       --buildpack-id "paketo-buildpacks/gradle@${version}" --tools gradle \
       --buildpack-id "paketo-buildpacks/maven@${version}" --tools maven \
       --buildpack-id "paketo-buildpacks/sbt@${version}" --tools sbt \

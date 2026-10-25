@@ -40,6 +40,8 @@ func TestUnitBuildDispatchesByPlanEntry(t *testing.T) {
 		entry    string
 		expected string
 	}{
+		{name: "leiningen", entry: "lein", expected: "leiningen"},
+		{name: "clojure-tools", entry: "clojure", expected: "clojure-tools"},
 		{name: "gradle", entry: "gradle", expected: "gradle"},
 		{name: "maven", entry: "maven", expected: "maven"},
 		{name: "sbt", entry: "sbt", expected: "sbt"},
@@ -47,14 +49,18 @@ func TestUnitBuildDispatchesByPlanEntry(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
+			leiningenBuilder := &fakeBuilder{layer: "leiningen"}
+			clojureBuilder := &fakeBuilder{layer: "clojure-tools"}
 			gradleBuilder := &fakeBuilder{layer: "gradle"}
 			mavenBuilder := &fakeBuilder{layer: "maven"}
 			sbtBuilder := &fakeBuilder{layer: "sbt"}
 
 			b := buildtools.Build{
-				GradleBuilder: gradleBuilder,
-				MavenBuilder:  mavenBuilder,
-				SBTBuilder:    sbtBuilder,
+				LeiningenBuilder: leiningenBuilder,
+				ClojureBuilder:   clojureBuilder,
+				GradleBuilder:    gradleBuilder,
+				MavenBuilder:     mavenBuilder,
+				SBTBuilder:       sbtBuilder,
 			}
 
 			context := libcnb.BuildContext{
@@ -73,9 +79,11 @@ func TestUnitBuildDispatchesByPlanEntry(t *testing.T) {
 			}
 
 			used := map[string]bool{
-				"gradle": gradleBuilder.called,
-				"maven":  mavenBuilder.called,
-				"sbt":    sbtBuilder.called,
+				"leiningen":     leiningenBuilder.called,
+				"clojure-tools": clojureBuilder.called,
+				"gradle":        gradleBuilder.called,
+				"maven":         mavenBuilder.called,
+				"sbt":           sbtBuilder.called,
 			}
 			for name, called := range used {
 				if name == tc.expected && !called {
@@ -91,9 +99,11 @@ func TestUnitBuildDispatchesByPlanEntry(t *testing.T) {
 
 func TestUnitBuildFailsWithoutAToolPlanEntry(t *testing.T) {
 	b := buildtools.Build{
-		GradleBuilder: &fakeBuilder{},
-		MavenBuilder:  &fakeBuilder{},
-		SBTBuilder:    &fakeBuilder{},
+		LeiningenBuilder: &fakeBuilder{},
+		ClojureBuilder:   &fakeBuilder{},
+		GradleBuilder:    &fakeBuilder{},
+		MavenBuilder:     &fakeBuilder{},
+		SBTBuilder:       &fakeBuilder{},
 	}
 
 	if _, err := b.Build(libcnb.BuildContext{}); err == nil {

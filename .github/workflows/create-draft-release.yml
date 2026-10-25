@@ -104,8 +104,10 @@ jobs:
       matrix:
         buildpack:
           - build-tools
-          - maven
+          - leiningen
+          - clojure-tools
           - gradle
+          - maven
           - sbt
       fail-fast: false
     steps:
@@ -209,7 +211,7 @@ jobs:
     - name: Assemble Release Notes
       run: |
         cat ./release-notes/release_notes_build-tools > ./release_notes
-        for buildpack in maven gradle sbt; do
+        for buildpack in leiningen clojure-tools gradle maven sbt; do
           printf "\n\n---\n\n" >> ./release_notes
           cat "./release-notes/release_notes_${buildpack}" >> ./release_notes
         done

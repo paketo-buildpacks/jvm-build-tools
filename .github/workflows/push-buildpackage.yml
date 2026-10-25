@@ -16,8 +16,10 @@ jobs:
       matrix:
         buildpack:
           - build-tools
-          - maven
+          - leiningen
+          - clojure-tools
           - gradle
+          - maven
           - sbt
       fail-fast: false
     env:

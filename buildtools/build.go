@@ -24,7 +24,9 @@ import (
 	"github.com/paketo-buildpacks/libpak/bard"
 	"github.com/paketo-buildpacks/libpak/sbom"
 
+	"github.com/paketo-buildpacks/build-tools/clojure"
 	"github.com/paketo-buildpacks/build-tools/gradle"
+	"github.com/paketo-buildpacks/build-tools/leiningen"
 	"github.com/paketo-buildpacks/build-tools/libbs"
 	"github.com/paketo-buildpacks/build-tools/maven"
 	"github.com/paketo-buildpacks/build-tools/sbt"
@@ -39,21 +41,35 @@ type ApplicationFactory interface {
 
 // Build dispatches to the build tool selected by the detect phase.
 //
-// The GradleBuilder, MavenBuilder and SBTBuilder fields are primarily for
-// tests; when nil, the real tool builds are used.
+// The builder fields are primarily for tests; when nil, the real tool builds
+// are used.
 type Build struct {
 	Logger                bard.Logger
 	ApplicationFactory    ApplicationFactory
 	HomeDirectoryResolver gradle.HomeDirectoryResolver
 	TTY                   bool
 
-	GradleBuilder libcnb.Builder
-	MavenBuilder  libcnb.Builder
-	SBTBuilder    libcnb.Builder
+	LeiningenBuilder libcnb.Builder
+	ClojureBuilder   libcnb.Builder
+	GradleBuilder    libcnb.Builder
+	MavenBuilder     libcnb.Builder
+	SBTBuilder       libcnb.Builder
 }
 
 func (b Build) Build(context libcnb.BuildContext) (libcnb.BuildResult, error) {
 	pr := libpak.PlanEntryResolver{Plan: context.Plan}
+
+	if _, found, err := pr.Resolve(leiningen.PlanEntryLein); err != nil {
+		return libcnb.BuildResult{}, fmt.Errorf("unable to resolve leiningen plan entry\n%w", err)
+	} else if found {
+		return b.leiningenBuilder().Build(context)
+	}
+
+	if _, found, err := pr.Resolve(clojure.PlanEntryClj); err != nil {
+		return libcnb.BuildResult{}, fmt.Errorf("unable to resolve clojure-tools plan entry\n%w", err)
+	} else if found {
+		return b.clojureBuilder().Build(context)
+	}
 
 	if _, found, err := pr.Resolve(gradle.PlanEntryGradle); err != nil {
 		return libcnb.BuildResult{}, fmt.Errorf("unable to resolve gradle plan entry\n%w", err)
@@ -73,8 +89,30 @@ func (b Build) Build(context libcnb.BuildContext) (libcnb.BuildResult, error) {
 		return b.sbtBuilder().Build(context)
 	}
 
-	return libcnb.BuildResult{}, fmt.Errorf("no supported build tool plan entry found, expected one of: %s, %s, %s",
-		gradle.PlanEntryGradle, maven.PlanEntryMaven, sbt.PlanEntrySBT)
+	return libcnb.BuildResult{}, fmt.Errorf("no supported build tool plan entry found, expected one of: %s, %s, %s, %s, %s",
+		leiningen.PlanEntryLein, clojure.PlanEntryClj, gradle.PlanEntryGradle, maven.PlanEntryMaven, sbt.PlanEntrySBT)
+}
+
+func (b Build) leiningenBuilder() libcnb.Builder {
+	if b.LeiningenBuilder != nil {
+		return b.LeiningenBuilder
+	}
+
+	return leiningen.Build{
+		Logger:             b.Logger,
+		ApplicationFactory: b.ApplicationFactory,
+	}
+}
+
+func (b Build) clojureBuilder() libcnb.Builder {
+	if b.ClojureBuilder != nil {
+		return b.ClojureBuilder
+	}
+
+	return clojure.Build{
+		Logger:             b.Logger,
+		ApplicationFactory: b.ApplicationFactory,
+	}
 }
 
 func (b Build) gradleBuilder() libcnb.Builder {

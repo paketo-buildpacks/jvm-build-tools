@@ -33,6 +33,16 @@ type tool struct {
 
 var tools = []tool{
 	{
+		id:       "lein",
+		getAll:   getAllLeiningenVersions,
+		generate: generateLeiningenMetadata,
+	},
+	{
+		id:       "clojure",
+		getAll:   getAllClojureVersions,
+		generate: generateClojureMetadata,
+	},
+	{
 		id:       "gradle",
 		getAll:   getAllGradleVersions,
 		generate: generateGradleMetadata,

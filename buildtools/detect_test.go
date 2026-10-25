@@ -101,13 +101,28 @@ func TestUnitDetectPropagatesErrors(t *testing.T) {
 }
 
 func TestUnitDetectorsForToolsPreservesOrder(t *testing.T) {
-	detectors, err := buildtools.DetectorsForTools("maven, gradle, sbt")
+	detectors, err := buildtools.DetectorsForTools("leiningen, clojure-tools, gradle, maven, sbt")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
 
-	if len(detectors) != 3 {
-		t.Fatalf("expected 3 detectors, got %d", len(detectors))
+	if len(detectors) != 5 {
+		t.Fatalf("expected 5 detectors, got %d", len(detectors))
+	}
+}
+
+func TestUnitSupportedToolsMatchesJavaOrder(t *testing.T) {
+	expected := []string{"leiningen", "clojure-tools", "gradle", "maven", "sbt"}
+	actual := buildtools.SupportedTools()
+
+	if len(actual) != len(expected) {
+		t.Fatalf("expected %d tools, got %d", len(expected), len(actual))
+	}
+
+	for i := range expected {
+		if actual[i] != expected[i] {
+			t.Fatalf("expected tool %d to be %q, got %q", i, expected[i], actual[i])
+		}
 	}
 }
 

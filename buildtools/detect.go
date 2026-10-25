@@ -22,8 +22,11 @@ import (
 
 	"github.com/buildpacks/libcnb"
 	"github.com/paketo-buildpacks/libpak"
+	"github.com/paketo-buildpacks/libpak/bard"
 
+	"github.com/paketo-buildpacks/build-tools/clojure"
 	"github.com/paketo-buildpacks/build-tools/gradle"
+	"github.com/paketo-buildpacks/build-tools/leiningen"
 	"github.com/paketo-buildpacks/build-tools/maven"
 	"github.com/paketo-buildpacks/build-tools/sbt"
 )
@@ -37,13 +40,15 @@ const (
 
 	// DefaultBuildTools matches the order the build tools appear in the java
 	// language family buildpack.
-	DefaultBuildTools = "gradle,maven,sbt"
+	DefaultBuildTools = "leiningen,clojure-tools,gradle,maven,sbt"
 )
 
-var detectorByTool = map[string]libcnb.Detector{
-	"gradle": gradle.Detect{},
-	"maven":  maven.Detect{},
-	"sbt":    sbt.Detect{},
+var detectorByTool = map[string]func(bard.Logger) libcnb.Detector{
+	"leiningen":     func(bard.Logger) libcnb.Detector { return leiningen.Detect{} },
+	"clojure-tools": func(l bard.Logger) libcnb.Detector { return clojure.Detect{Logger: l} },
+	"gradle":        func(bard.Logger) libcnb.Detector { return gradle.Detect{} },
+	"maven":         func(bard.Logger) libcnb.Detector { return maven.Detect{} },
+	"sbt":           func(bard.Logger) libcnb.Detector { return sbt.Detect{} },
 }
 
 // Detect runs the detectors for the configured build tools in order and returns
@@ -52,16 +57,23 @@ type Detect struct {
 	// Detectors is primarily for tests. When empty, the detectors are resolved
 	// from the BP_BUILD_TOOLS configuration.
 	Detectors []libcnb.Detector
+
+	// Logger is passed to detectors that log, such as the Clojure Tools one.
+	Logger bard.Logger
 }
 
 // NewDetect returns a Detect that resolves the enabled tools at detect time.
-func NewDetect() Detect {
-	return Detect{}
+func NewDetect(logger bard.Logger) Detect {
+	return Detect{Logger: logger}
 }
 
 // DetectorsForTools returns the detectors for a comma separated list of tool
 // names, preserving the order in the list.
 func DetectorsForTools(tools string) ([]libcnb.Detector, error) {
+	return detectorsForTools(tools, bard.Logger{})
+}
+
+func detectorsForTools(tools string, logger bard.Logger) ([]libcnb.Detector, error) {
 	var detectors []libcnb.Detector
 	for _, tool := range strings.Split(tools, ",") {
 		tool = strings.TrimSpace(tool)
@@ -69,12 +81,12 @@ func DetectorsForTools(tools string) ([]libcnb.Detector, error) {
 			continue
 		}
 
-		detector, found := detectorByTool[tool]
+		newDetector, found := detectorByTool[tool]
 		if !found {
 			return nil, fmt.Errorf("unsupported build tool %q, expected one of %s", tool, strings.Join(SupportedTools(), ", "))
 		}
 
-		detectors = append(detectors, detector)
+		detectors = append(detectors, newDetector(logger))
 	}
 
 	if len(detectors) == 0 {
@@ -86,7 +98,7 @@ func DetectorsForTools(tools string) ([]libcnb.Detector, error) {
 
 // SupportedTools returns the names of the build tools this buildpack supports.
 func SupportedTools() []string {
-	return []string{"gradle", "maven", "sbt"}
+	return []string{"leiningen", "clojure-tools", "gradle", "maven", "sbt"}
 }
 
 func (d Detect) Detect(context libcnb.DetectContext) (libcnb.DetectResult, error) {
@@ -102,7 +114,7 @@ func (d Detect) Detect(context libcnb.DetectContext) (libcnb.DetectResult, error
 			tools = DefaultBuildTools
 		}
 
-		detectors, err = DetectorsForTools(tools)
+		detectors, err = detectorsForTools(tools, d.Logger)
 		if err != nil {
 			return libcnb.DetectResult{}, err
 		}
