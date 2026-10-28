@@ -1,0 +1,17 @@
+{
+  "combined": "build-tools",
+  "integration": false,
+  "libpak-tools": {
+    "command": "build-build-tools",
+    "artifact-flag": "tools",
+    "include-all-flag": "include-all-tools"
+  },
+  "buildpacks": [
+    { "name": "build-tools", "image": "build-tools" },
+    { "name": "leiningen", "image": "leiningen-dev" },
+    { "name": "clojure-tools", "image": "clojure-tools-dev" },
+    { "name": "gradle", "image": "gradle-dev" },
+    { "name": "maven", "image": "maven-dev" },
+    { "name": "sbt", "image": "sbt-dev" }
+  ]
+}
