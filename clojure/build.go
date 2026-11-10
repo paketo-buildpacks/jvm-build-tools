@@ -29,7 +29,7 @@ import (
 	"github.com/paketo-buildpacks/libpak/effect"
 	"github.com/paketo-buildpacks/libpak/sbom"
 
-	"github.com/paketo-buildpacks/build-tools/libbs"
+	"github.com/paketo-buildpacks/jvm-build-tools/libbs"
 )
 
 type Build struct {

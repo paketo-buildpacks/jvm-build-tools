@@ -21,7 +21,7 @@ import (
 
 	"github.com/buildpacks/libcnb"
 
-	"github.com/paketo-buildpacks/build-tools/buildtools"
+	"github.com/paketo-buildpacks/jvm-build-tools/buildtools"
 )
 
 type fakeBuilder struct {

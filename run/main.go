@@ -22,9 +22,9 @@ import (
 	"github.com/paketo-buildpacks/libpak"
 	"github.com/paketo-buildpacks/libpak/bard"
 
-	"github.com/paketo-buildpacks/build-tools/buildtools"
-	"github.com/paketo-buildpacks/build-tools/gradle"
-	"github.com/paketo-buildpacks/build-tools/libbs"
+	"github.com/paketo-buildpacks/jvm-build-tools/buildtools"
+	"github.com/paketo-buildpacks/jvm-build-tools/gradle"
+	"github.com/paketo-buildpacks/jvm-build-tools/libbs"
 )
 
 func main() {

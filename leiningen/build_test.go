@@ -25,10 +25,10 @@ import (
 
 	"github.com/buildpacks/libcnb"
 	. "github.com/onsi/gomega"
-	"github.com/paketo-buildpacks/build-tools/libbs"
+	"github.com/paketo-buildpacks/jvm-build-tools/libbs"
 	"github.com/sclevine/spec"
 
-	"github.com/paketo-buildpacks/build-tools/leiningen"
+	"github.com/paketo-buildpacks/jvm-build-tools/leiningen"
 )
 
 func testBuild(t *testing.T, context spec.G, it spec.S) {

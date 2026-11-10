@@ -27,8 +27,8 @@ import (
 	"github.com/sclevine/spec"
 	"github.com/stretchr/testify/mock"
 
-	"github.com/paketo-buildpacks/build-tools/libbs"
-	"github.com/paketo-buildpacks/build-tools/libbs/mocks"
+	"github.com/paketo-buildpacks/jvm-build-tools/libbs"
+	"github.com/paketo-buildpacks/jvm-build-tools/libbs/mocks"
 )
 
 func testResolvers(t *testing.T, context spec.G, it spec.S) {

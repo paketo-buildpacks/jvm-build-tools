@@ -1,8 +1,8 @@
-# `github.com/paketo-buildpacks/build-tools`
+# `github.com/paketo-buildpacks/jvm-build-tools`
 
-The Paketo Buildpack for Build Tools is a Cloud Native Buildpack that provides
-build tools (Leiningen, Clojure Tools, Gradle, Maven, Maven Daemon and sbt) and
-builds JVM applications with them.
+The Paketo Buildpack for JVM Build Tools is a Cloud Native Buildpack that
+provides JVM build tools (Leiningen, Clojure Tools, Gradle, Maven, Maven Daemon
+and sbt) and builds JVM applications with them.
 
 This buildpack is designed to work in collaboration with other buildpacks which
 request contributions of build tools, and replaces the previously separate
@@ -29,11 +29,11 @@ by `$BP_BUILD_TOOLS`.
 
 ## Emitted buildpacks
 
-`scripts/package.sh` uses `libpak-tools build-build-tools` to emit several
+`scripts/package.sh` uses `libpak-tools build-jvm-build-tools` to emit several
 buildpacks from this one source tree, the same way `jvm-vendors` emits one
 buildpack per JVM vendor:
 
-- `paketo-buildpacks/build-tools` - all tools, dependencies for every tool
+- `paketo-buildpacks/jvm-build-tools` - all tools, dependencies for every tool
 - `paketo-buildpacks/leiningen` - Leiningen only
 - `paketo-buildpacks/clojure-tools` - Clojure Tools only
 - `paketo-buildpacks/gradle` - Gradle only
@@ -102,6 +102,7 @@ For the detected tool the buildpack will:
 ├── leiningen/         Leiningen detection, distribution and build
 ├── libbs/             shared application, cache and resolver code (from libbs)
 ├── maven/             Maven detection, distributions (mvn/mvnd) and build
+├── multi-implementation.json  combined buildpack, components, images and packaging config
 ├── sbt/               sbt detection, distribution and build
 ├── dependency/        dependency retrieval for lein, clojure, gradle, maven, mvnd and sbt
 └── run/               buildpack entrypoint

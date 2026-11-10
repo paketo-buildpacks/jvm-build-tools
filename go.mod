@@ -1,4 +1,4 @@
-module github.com/paketo-buildpacks/build-tools
+module github.com/paketo-buildpacks/jvm-build-tools
 
 go 1.27.2
 

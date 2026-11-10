@@ -31,7 +31,7 @@ import (
 	"github.com/paketo-buildpacks/libpak/bindings"
 
 	"github.com/buildpacks/libcnb"
-	"github.com/paketo-buildpacks/build-tools/libbs"
+	"github.com/paketo-buildpacks/jvm-build-tools/libbs"
 	"github.com/paketo-buildpacks/libpak"
 	"github.com/paketo-buildpacks/libpak/bard"
 )
