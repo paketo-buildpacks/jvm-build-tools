@@ -1,4 +1,4 @@
-module github.com/paketo-buildpacks/build-tools/dependency/retrieval
+module github.com/paketo-buildpacks/jvm-build-tools/dependency/retrieval
 
 go 1.27.2
 

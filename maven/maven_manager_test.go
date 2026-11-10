@@ -10,7 +10,7 @@ import (
 
 	"github.com/buildpacks/libcnb"
 	. "github.com/onsi/gomega"
-	"github.com/paketo-buildpacks/build-tools/maven"
+	"github.com/paketo-buildpacks/jvm-build-tools/maven"
 	"github.com/paketo-buildpacks/libpak"
 	"github.com/paketo-buildpacks/libpak/bard"
 	"github.com/sclevine/spec"

@@ -15,17 +15,17 @@
 api = "0.7"
 
 [buildpack]
-  description = "A Cloud Native Buildpack that provides build tools (Leiningen, Clojure Tools, Gradle, Maven, sbt) and builds JVM applications with them"
-  homepage = "https://github.com/paketo-buildpacks/build-tools"
-  id = "paketo-buildpacks/build-tools"
-  keywords = ["java", "leiningen", "clojure", "gradle", "maven", "sbt", "build-tools"]
-  name = "Paketo Buildpack for Build Tools"
+  description = "A Cloud Native Buildpack that provides JVM build tools (Leiningen, Clojure Tools, Gradle, Maven, sbt) and builds JVM applications with them"
+  homepage = "https://github.com/paketo-buildpacks/jvm-build-tools"
+  id = "paketo-buildpacks/jvm-build-tools"
+  keywords = ["java", "jvm", "leiningen", "clojure", "gradle", "maven", "sbt", "jvm-build-tools"]
+  name = "Paketo Buildpack for JVM Build Tools"
   sbom-formats = ["application/vnd.syft+json", "application/vnd.cyclonedx+json"]
   version = "{{.version}}"
 
   [[buildpack.licenses]]
     type = "Apache-2.0"
-    uri = "https://github.com/paketo-buildpacks/build-tools/blob/main/LICENSE"
+    uri = "https://github.com/paketo-buildpacks/jvm-build-tools/blob/main/LICENSE"
 
 [metadata]
   include-files = ["LICENSE", "NOTICE", "README.md", "buildpack.toml", "linux/amd64/bin/build", "linux/amd64/bin/detect", "linux/amd64/bin/run", "linux/arm64/bin/build", "linux/arm64/bin/detect", "linux/arm64/bin/run"]

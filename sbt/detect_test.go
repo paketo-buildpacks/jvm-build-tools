@@ -25,7 +25,7 @@ import (
 	. "github.com/onsi/gomega"
 	"github.com/sclevine/spec"
 
-	"github.com/paketo-buildpacks/build-tools/sbt"
+	"github.com/paketo-buildpacks/jvm-build-tools/sbt"
 )
 
 func testDetect(t *testing.T, context spec.G, it spec.S) {

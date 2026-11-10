@@ -35,7 +35,7 @@ import (
 	"github.com/sclevine/spec"
 	"github.com/stretchr/testify/mock"
 
-	"github.com/paketo-buildpacks/build-tools/libbs"
+	"github.com/paketo-buildpacks/jvm-build-tools/libbs"
 )
 
 func testApplication(t *testing.T, context spec.G, it spec.S) {
