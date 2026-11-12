@@ -1,17 +1,3 @@
-# Copyright 2018-2026 the original author or authors.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      https://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 api = "0.7"
 
 [buildpack]
@@ -240,6 +226,23 @@ api = "0.7"
       uri = "https://github.com/technomancy/leiningen/blob/stable/COPYING"
 
   [[metadata.dependencies]]
+    checksum = "sha256:61cf3a0786748238bc7d78e24b77a875d8c4c0704c3bc11f7180e979b46bcc2c"
+    cpe = "cpe:2.3:a:leiningen:leiningen:2.13.1:*:*:*:*:*:*:*"
+    id = "lein"
+    name = "Leiningen"
+    purl = "pkg:generic/leiningen@2.13.1?checksum=61cf3a0786748238bc7d78e24b77a875d8c4c0704c3bc11f7180e979b46bcc2c&download_url=https://github.com/technomancy/leiningen/archive/refs/tags/2.13.1.tar.gz"
+    sha256 = "61cf3a0786748238bc7d78e24b77a875d8c4c0704c3bc11f7180e979b46bcc2c"
+    source = "https://github.com/technomancy/leiningen/archive/refs/tags/2.13.1.tar.gz"
+    source-checksum = "sha256:28bd0f099ad7e155c6f2880b118fbab591fa43baf0baff862bd402249825d88b"
+    stacks = ["io.buildpacks.stacks.bionic", "io.paketo.stacks.tiny", "*"]
+    uri = "https://raw.githubusercontent.com/technomancy/leiningen/2.13.1/bin/lein"
+    version = "2.13.1"
+
+    [[metadata.dependencies.licenses]]
+      type = "EPL-1.0"
+      uri = "https://github.com/technomancy/leiningen/blob/stable/COPYING"
+
+  [[metadata.dependencies]]
     checksum = "sha256:5ae63b082ed33bf4c29bf1a8317c5c15249d1bc753676b2f5177fb3804ad6f77"
     cpe = "cpe:2.3:a:cognitect:clojure:1.12.6:*:*:*:*:*:*:*"
     id = "clojure"
@@ -257,17 +260,17 @@ api = "0.7"
       uri = "https://github.com/clojure/clojure/blob/master/epl-v10.html"
 
   [[metadata.dependencies]]
-    checksum = "sha256:21bd5da2de49b642904077f38c0efdc7778e92b3ed0889392dca61b97e389607"
-    cpe = "cpe:2.3:a:gradle:gradle:9.8.2:*:*:*:*:*:*:*"
+    checksum = "sha256:d8a18a7a841dd5df825d35a685fad6f2d7f12ac0c280e57b67c27b4a520ba228"
+    cpe = "cpe:2.3:a:gradle:gradle:9.9.1:*:*:*:*:*:*:*"
     id = "gradle"
     name = "Gradle"
-    purl = "pkg:generic/gradle@9.8.2"
-    sha256 = "21bd5da2de49b642904077f38c0efdc7778e92b3ed0889392dca61b97e389607"
-    source = "https://downloads.gradle.org/distributions/gradle-9.8.2-src.zip"
-    source-checksum = "sha256:96c9aba0564daa2998f578b589eba9ae1f6656e368fde85f7132e05321bab553"
+    purl = "pkg:generic/gradle@9.9.1"
+    sha256 = "d8a18a7a841dd5df825d35a685fad6f2d7f12ac0c280e57b67c27b4a520ba228"
+    source = "https://downloads.gradle.org/distributions/gradle-9.9.1-src.zip"
+    source-checksum = "sha256:3ff6caf155cbf86d6494ffc1b326ea43b7e3a2a937c4f6344ff8f0a29c9a55b9"
     stacks = ["io.buildpacks.stacks.bionic", "io.paketo.stacks.tiny", "*"]
-    uri = "https://downloads.gradle.org/distributions/gradle-9.8.2-bin.zip"
-    version = "9.8.2"
+    uri = "https://downloads.gradle.org/distributions/gradle-9.9.1-bin.zip"
+    version = "9.9.1"
 
     [[metadata.dependencies.licenses]]
       type = "Apache-2.0"
@@ -346,34 +349,34 @@ api = "0.7"
       uri = "https://www.apache.org/licenses/"
 
   [[metadata.dependencies]]
-    checksum = "sha256:06806805ffd26232727326216766ed4793b549f8c1e6ffeef2e610db7245b698"
-    cpe = "cpe:2.3:a:lightbend:sbt:1.13.0:*:*:*:*:*:*:*"
+    checksum = "sha256:4a20e36c1642b6d5be34ef641d2ed6c8c0d464e6145283730d5566716e4083be"
+    cpe = "cpe:2.3:a:lightbend:sbt:1.13.1:*:*:*:*:*:*:*"
     id = "sbt"
     name = "Scala SBT"
-    purl = "pkg:generic/sbt@1.13.0"
-    sha256 = "06806805ffd26232727326216766ed4793b549f8c1e6ffeef2e610db7245b698"
-    source = "https://github.com/sbt/sbt/archive/refs/tags/v1.13.0.tar.gz"
-    source-checksum = "sha256:8d9e34e9f7e3c811e3151d2dd0972a540880878f29a90858b5cf485fcfd5d52b"
+    purl = "pkg:generic/sbt@1.13.1"
+    sha256 = "4a20e36c1642b6d5be34ef641d2ed6c8c0d464e6145283730d5566716e4083be"
+    source = "https://github.com/sbt/sbt/archive/refs/tags/v1.13.1.tar.gz"
+    source-checksum = "sha256:fc9a2cf671a8eb7e63e3ceffb9b3bb83273ca6b519464870a6e48415e8f3cc12"
     stacks = ["io.buildpacks.stacks.bionic", "io.paketo.stacks.tiny", "*"]
-    uri = "https://github.com/sbt/sbt/releases/download/v1.13.0/sbt-1.13.0.tgz"
-    version = "1.13.0"
+    uri = "https://github.com/sbt/sbt/releases/download/v1.13.1/sbt-1.13.1.tgz"
+    version = "1.13.1"
 
     [[metadata.dependencies.licenses]]
       type = "Apache-2.0"
       uri = "https://github.com/sbt/sbt/blob/develop/LICENSE"
 
   [[metadata.dependencies]]
-    checksum = "sha256:d8409a244e97c3839f27c4f435f49421196c126a450d30f4cf53522d39e3c379"
-    cpe = "cpe:2.3:a:lightbend:sbt:2.0.11:*:*:*:*:*:*:*"
+    checksum = "sha256:a797e1d940260c9d6e8a0a434ff8fc3247c1b711d2cf302bae62ae243293fe55"
+    cpe = "cpe:2.3:a:lightbend:sbt:2.0.12:*:*:*:*:*:*:*"
     id = "sbt"
     name = "Scala SBT"
-    purl = "pkg:generic/sbt@2.0.11"
-    sha256 = "d8409a244e97c3839f27c4f435f49421196c126a450d30f4cf53522d39e3c379"
-    source = "https://github.com/sbt/sbt/archive/refs/tags/v2.0.11.tar.gz"
-    source-checksum = "sha256:f42faf398a6919bbbd37aa3db2d6d5c580883e6dc88bb2ee889e8ee33d104801"
+    purl = "pkg:generic/sbt@2.0.12"
+    sha256 = "a797e1d940260c9d6e8a0a434ff8fc3247c1b711d2cf302bae62ae243293fe55"
+    source = "https://github.com/sbt/sbt/archive/refs/tags/v2.0.12.tar.gz"
+    source-checksum = "sha256:ccc0c2553b5c04df69323e5165bb14fa424de23ea0248d4bf685f41cfd4f5067"
     stacks = ["io.buildpacks.stacks.bionic", "io.paketo.stacks.tiny", "*"]
-    uri = "https://github.com/sbt/sbt/releases/download/v2.0.11/sbt-2.0.11.tgz"
-    version = "2.0.11"
+    uri = "https://github.com/sbt/sbt/releases/download/v2.0.12/sbt-2.0.12.tgz"
+    version = "2.0.12"
 
     [[metadata.dependencies.licenses]]
       type = "Apache-2.0"
