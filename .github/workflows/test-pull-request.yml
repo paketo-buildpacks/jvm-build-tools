@@ -27,3 +27,15 @@ jobs:
 
     - name: Run Unit Tests
       run: ./scripts/unit.sh
+
+  upload:
+    name: Upload Workflow Event Payload
+    runs-on: ubuntu-24.04
+    permissions:
+      actions: write # upload the workflow event payload artifact
+    steps:
+    - name: Upload Artifact
+      uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+      with:
+        name: event-payload
+        path: ${{ github.event_path }}
