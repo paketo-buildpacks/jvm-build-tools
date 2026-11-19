@@ -260,6 +260,23 @@ api = "0.7"
       uri = "https://github.com/clojure/clojure/blob/master/epl-v10.html"
 
   [[metadata.dependencies]]
+    checksum = "sha256:4b0d4df753c477683c6237906e65cdaad1d30ab6283b3afe8abfbaca48e90120"
+    cpe = "cpe:2.3:a:cognitect:clojure:1.12.7:*:*:*:*:*:*:*"
+    id = "clojure"
+    name = "Clojure"
+    purl = "pkg:generic/clojure@1.12.7?checksum=4b0d4df753c477683c6237906e65cdaad1d30ab6283b3afe8abfbaca48e90120&download_url=https://download.clojure.org/install/linux-install-1.12.7.1681.sh"
+    sha256 = "4b0d4df753c477683c6237906e65cdaad1d30ab6283b3afe8abfbaca48e90120"
+    source = "https://github.com/clojure/clojure/archive/refs/tags/clojure-1.12.7.tar.gz"
+    source-checksum = "sha256:481cb5b4d48b0526fcf5e251be1ed8ada518be044e9ea3b93293265ff866734e"
+    stacks = ["io.buildpacks.stacks.bionic", "io.paketo.stacks.tiny", "*"]
+    uri = "https://download.clojure.org/install/linux-install-1.12.7.1681.sh"
+    version = "1.12.7"
+
+    [[metadata.dependencies.licenses]]
+      type = "Eclipse Public License - v 1.0"
+      uri = "https://github.com/clojure/clojure/blob/master/epl-v10.html"
+
+  [[metadata.dependencies]]
     checksum = "sha256:d8a18a7a841dd5df825d35a685fad6f2d7f12ac0c280e57b67c27b4a520ba228"
     cpe = "cpe:2.3:a:gradle:gradle:9.9.1:*:*:*:*:*:*:*"
     id = "gradle"
