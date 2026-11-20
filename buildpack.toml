@@ -277,17 +277,17 @@ api = "0.7"
       uri = "https://github.com/clojure/clojure/blob/master/epl-v10.html"
 
   [[metadata.dependencies]]
-    checksum = "sha256:d8a18a7a841dd5df825d35a685fad6f2d7f12ac0c280e57b67c27b4a520ba228"
-    cpe = "cpe:2.3:a:gradle:gradle:9.9.1:*:*:*:*:*:*:*"
+    checksum = "sha256:971fcd7150ca4ba04852c0b2ca0d2d0ab9468e14b03473eab19528809914c76b"
+    cpe = "cpe:2.3:a:gradle:gradle:9.9.2:*:*:*:*:*:*:*"
     id = "gradle"
     name = "Gradle"
-    purl = "pkg:generic/gradle@9.9.1"
-    sha256 = "d8a18a7a841dd5df825d35a685fad6f2d7f12ac0c280e57b67c27b4a520ba228"
-    source = "https://downloads.gradle.org/distributions/gradle-9.9.1-src.zip"
-    source-checksum = "sha256:3ff6caf155cbf86d6494ffc1b326ea43b7e3a2a937c4f6344ff8f0a29c9a55b9"
+    purl = "pkg:generic/gradle@9.9.2"
+    sha256 = "971fcd7150ca4ba04852c0b2ca0d2d0ab9468e14b03473eab19528809914c76b"
+    source = "https://downloads.gradle.org/distributions/gradle-9.9.2-src.zip"
+    source-checksum = "sha256:cbaec7252a915e82ec3efc5a822637addf61054251aa2c6f49dcfcffb692038c"
     stacks = ["io.buildpacks.stacks.bionic", "io.paketo.stacks.tiny", "*"]
-    uri = "https://downloads.gradle.org/distributions/gradle-9.9.1-bin.zip"
-    version = "9.9.1"
+    uri = "https://downloads.gradle.org/distributions/gradle-9.9.2-bin.zip"
+    version = "9.9.2"
 
     [[metadata.dependencies.licenses]]
       type = "Apache-2.0"
