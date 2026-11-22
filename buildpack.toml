@@ -294,17 +294,17 @@ api = "0.7"
       uri = "https://docs.gradle.org/current/userguide/userguide.html#licenses"
 
   [[metadata.dependencies]]
-    checksum = "sha256:810b8348f0a40f9116c202093fae007ebeabf67699bf34d81ee7e272289e085a"
-    cpe = "cpe:2.3:a:apache:maven:3.10.1:*:*:*:*:*:*:*"
+    checksum = "sha256:8ba13121794243e604dbca50439f6ae649ce602675a167129556fd502947b249"
+    cpe = "cpe:2.3:a:apache:maven:3.10.2:*:*:*:*:*:*:*"
     id = "maven"
     name = "Apache Maven"
-    purl = "pkg:generic/apache-maven@3.10.1"
-    sha256 = "810b8348f0a40f9116c202093fae007ebeabf67699bf34d81ee7e272289e085a"
-    source = "https://repo1.maven.org/maven2/org/apache/maven/apache-maven/3.10.1/apache-maven-3.10.1-src.tar.gz"
-    source-checksum = "sha256:440846130652a1764c207e076209e71cd2d6bb8fcc45e0f8f224f669231b9951"
+    purl = "pkg:generic/apache-maven@3.10.2"
+    sha256 = "8ba13121794243e604dbca50439f6ae649ce602675a167129556fd502947b249"
+    source = "https://repo1.maven.org/maven2/org/apache/maven/apache-maven/3.10.2/apache-maven-3.10.2-src.tar.gz"
+    source-checksum = "sha256:40351e9095938b69a391ff47018530491926be9cd4692cef394c27f26c28982b"
     stacks = ["io.buildpacks.stacks.bionic", "io.paketo.stacks.tiny", "*"]
-    uri = "https://repo1.maven.org/maven2/org/apache/maven/apache-maven/3.10.1/apache-maven-3.10.1-bin.tar.gz"
-    version = "3.10.1"
+    uri = "https://repo1.maven.org/maven2/org/apache/maven/apache-maven/3.10.2/apache-maven-3.10.2-bin.tar.gz"
+    version = "3.10.2"
 
     [[metadata.dependencies.licenses]]
       type = "Apache-2.0"
