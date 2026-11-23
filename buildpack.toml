@@ -383,17 +383,17 @@ api = "0.7"
       uri = "https://github.com/sbt/sbt/blob/develop/LICENSE"
 
   [[metadata.dependencies]]
-    checksum = "sha256:c26da34433ffa8a503682cc9b7d3789ed84305070b9f187948f0a41b82d76f10"
-    cpe = "cpe:2.3:a:lightbend:sbt:2.1.0:*:*:*:*:*:*:*"
+    checksum = "sha256:54f99416b027f201d881326075bf85f20680d8c3f2b09415584829e868b34999"
+    cpe = "cpe:2.3:a:lightbend:sbt:2.1.1:*:*:*:*:*:*:*"
     id = "sbt"
     name = "Scala SBT"
-    purl = "pkg:generic/sbt@2.1.0"
-    sha256 = "c26da34433ffa8a503682cc9b7d3789ed84305070b9f187948f0a41b82d76f10"
-    source = "https://github.com/sbt/sbt/archive/refs/tags/v2.1.0.tar.gz"
-    source-checksum = "sha256:6a4a5d926b9f8082e2b38848123010c7071e5f48eb334bd76d7e87be99028a81"
+    purl = "pkg:generic/sbt@2.1.1"
+    sha256 = "54f99416b027f201d881326075bf85f20680d8c3f2b09415584829e868b34999"
+    source = "https://github.com/sbt/sbt/archive/refs/tags/v2.1.1.tar.gz"
+    source-checksum = "sha256:37dfdf61a1a751d5fd28164ceae7da5ed79206743415a757d2e5b2838bfdd2f7"
     stacks = ["io.buildpacks.stacks.bionic", "io.paketo.stacks.tiny", "*"]
-    uri = "https://github.com/sbt/sbt/releases/download/v2.1.0/sbt-2.1.0.tgz"
-    version = "2.1.0"
+    uri = "https://github.com/sbt/sbt/releases/download/v2.1.1/sbt-2.1.1.tgz"
+    version = "2.1.1"
 
     [[metadata.dependencies.licenses]]
       type = "Apache-2.0"
