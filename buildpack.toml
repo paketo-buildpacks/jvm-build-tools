@@ -1,17 +1,3 @@
-# Copyright 2018-2026 the original author or authors.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      https://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 api = "0.7"
 
 [buildpack]
@@ -240,6 +226,23 @@ api = "0.7"
       uri = "https://github.com/technomancy/leiningen/blob/stable/COPYING"
 
   [[metadata.dependencies]]
+    checksum = "sha256:61cf3a0786748238bc7d78e24b77a875d8c4c0704c3bc11f7180e979b46bcc2c"
+    cpe = "cpe:2.3:a:leiningen:leiningen:2.13.1:*:*:*:*:*:*:*"
+    id = "lein"
+    name = "Leiningen"
+    purl = "pkg:generic/leiningen@2.13.1?checksum=61cf3a0786748238bc7d78e24b77a875d8c4c0704c3bc11f7180e979b46bcc2c&download_url=https://github.com/technomancy/leiningen/archive/refs/tags/2.13.1.tar.gz"
+    sha256 = "61cf3a0786748238bc7d78e24b77a875d8c4c0704c3bc11f7180e979b46bcc2c"
+    source = "https://github.com/technomancy/leiningen/archive/refs/tags/2.13.1.tar.gz"
+    source-checksum = "sha256:28bd0f099ad7e155c6f2880b118fbab591fa43baf0baff862bd402249825d88b"
+    stacks = ["io.buildpacks.stacks.bionic", "io.paketo.stacks.tiny", "*"]
+    uri = "https://raw.githubusercontent.com/technomancy/leiningen/2.13.1/bin/lein"
+    version = "2.13.1"
+
+    [[metadata.dependencies.licenses]]
+      type = "EPL-1.0"
+      uri = "https://github.com/technomancy/leiningen/blob/stable/COPYING"
+
+  [[metadata.dependencies]]
     checksum = "sha256:5ae63b082ed33bf4c29bf1a8317c5c15249d1bc753676b2f5177fb3804ad6f77"
     cpe = "cpe:2.3:a:cognitect:clojure:1.12.6:*:*:*:*:*:*:*"
     id = "clojure"
@@ -257,34 +260,51 @@ api = "0.7"
       uri = "https://github.com/clojure/clojure/blob/master/epl-v10.html"
 
   [[metadata.dependencies]]
-    checksum = "sha256:21bd5da2de49b642904077f38c0efdc7778e92b3ed0889392dca61b97e389607"
-    cpe = "cpe:2.3:a:gradle:gradle:9.8.2:*:*:*:*:*:*:*"
+    checksum = "sha256:4b0d4df753c477683c6237906e65cdaad1d30ab6283b3afe8abfbaca48e90120"
+    cpe = "cpe:2.3:a:cognitect:clojure:1.12.7:*:*:*:*:*:*:*"
+    id = "clojure"
+    name = "Clojure"
+    purl = "pkg:generic/clojure@1.12.7?checksum=4b0d4df753c477683c6237906e65cdaad1d30ab6283b3afe8abfbaca48e90120&download_url=https://download.clojure.org/install/linux-install-1.12.7.1681.sh"
+    sha256 = "4b0d4df753c477683c6237906e65cdaad1d30ab6283b3afe8abfbaca48e90120"
+    source = "https://github.com/clojure/clojure/archive/refs/tags/clojure-1.12.7.tar.gz"
+    source-checksum = "sha256:481cb5b4d48b0526fcf5e251be1ed8ada518be044e9ea3b93293265ff866734e"
+    stacks = ["io.buildpacks.stacks.bionic", "io.paketo.stacks.tiny", "*"]
+    uri = "https://download.clojure.org/install/linux-install-1.12.7.1681.sh"
+    version = "1.12.7"
+
+    [[metadata.dependencies.licenses]]
+      type = "Eclipse Public License - v 1.0"
+      uri = "https://github.com/clojure/clojure/blob/master/epl-v10.html"
+
+  [[metadata.dependencies]]
+    checksum = "sha256:4f2135b741f272acc88c168a52202a0a63fceee0cd61ee753da79694cd2b1e4b"
+    cpe = "cpe:2.3:a:gradle:gradle:9.9.3:*:*:*:*:*:*:*"
     id = "gradle"
     name = "Gradle"
-    purl = "pkg:generic/gradle@9.8.2"
-    sha256 = "21bd5da2de49b642904077f38c0efdc7778e92b3ed0889392dca61b97e389607"
-    source = "https://downloads.gradle.org/distributions/gradle-9.8.2-src.zip"
-    source-checksum = "sha256:96c9aba0564daa2998f578b589eba9ae1f6656e368fde85f7132e05321bab553"
+    purl = "pkg:generic/gradle@9.9.3"
+    sha256 = "4f2135b741f272acc88c168a52202a0a63fceee0cd61ee753da79694cd2b1e4b"
+    source = "https://downloads.gradle.org/distributions/gradle-9.9.3-src.zip"
+    source-checksum = "sha256:323a8bd94850672413cb4961d2172aa54bc3786193d8ee66edc133c9b143c4d5"
     stacks = ["io.buildpacks.stacks.bionic", "io.paketo.stacks.tiny", "*"]
-    uri = "https://downloads.gradle.org/distributions/gradle-9.8.2-bin.zip"
-    version = "9.8.2"
+    uri = "https://downloads.gradle.org/distributions/gradle-9.9.3-bin.zip"
+    version = "9.9.3"
 
     [[metadata.dependencies.licenses]]
       type = "Apache-2.0"
       uri = "https://docs.gradle.org/current/userguide/userguide.html#licenses"
 
   [[metadata.dependencies]]
-    checksum = "sha256:a46cc51bc74fa23fd267c7a0b9132b146dcf526da60d31aa5174e565632e9e0e"
-    cpe = "cpe:2.3:a:apache:maven:3.10.0:*:*:*:*:*:*:*"
+    checksum = "sha256:8ba13121794243e604dbca50439f6ae649ce602675a167129556fd502947b249"
+    cpe = "cpe:2.3:a:apache:maven:3.10.2:*:*:*:*:*:*:*"
     id = "maven"
     name = "Apache Maven"
-    purl = "pkg:generic/apache-maven@3.10.0"
-    sha256 = "a46cc51bc74fa23fd267c7a0b9132b146dcf526da60d31aa5174e565632e9e0e"
-    source = "https://repo1.maven.org/maven2/org/apache/maven/apache-maven/3.10.0/apache-maven-3.10.0-src.tar.gz"
-    source-checksum = "sha256:aa4d8ff3b71b636e6826b91695062d909ea6949a27e3442dd2762d8459439df9"
+    purl = "pkg:generic/apache-maven@3.10.2"
+    sha256 = "8ba13121794243e604dbca50439f6ae649ce602675a167129556fd502947b249"
+    source = "https://repo1.maven.org/maven2/org/apache/maven/apache-maven/3.10.2/apache-maven-3.10.2-src.tar.gz"
+    source-checksum = "sha256:40351e9095938b69a391ff47018530491926be9cd4692cef394c27f26c28982b"
     stacks = ["io.buildpacks.stacks.bionic", "io.paketo.stacks.tiny", "*"]
-    uri = "https://repo1.maven.org/maven2/org/apache/maven/apache-maven/3.10.0/apache-maven-3.10.0-bin.tar.gz"
-    version = "3.10.0"
+    uri = "https://repo1.maven.org/maven2/org/apache/maven/apache-maven/3.10.2/apache-maven-3.10.2-bin.tar.gz"
+    version = "3.10.2"
 
     [[metadata.dependencies.licenses]]
       type = "Apache-2.0"
@@ -346,34 +366,34 @@ api = "0.7"
       uri = "https://www.apache.org/licenses/"
 
   [[metadata.dependencies]]
-    checksum = "sha256:06806805ffd26232727326216766ed4793b549f8c1e6ffeef2e610db7245b698"
-    cpe = "cpe:2.3:a:lightbend:sbt:1.13.0:*:*:*:*:*:*:*"
+    checksum = "sha256:4a20e36c1642b6d5be34ef641d2ed6c8c0d464e6145283730d5566716e4083be"
+    cpe = "cpe:2.3:a:lightbend:sbt:1.13.1:*:*:*:*:*:*:*"
     id = "sbt"
     name = "Scala SBT"
-    purl = "pkg:generic/sbt@1.13.0"
-    sha256 = "06806805ffd26232727326216766ed4793b549f8c1e6ffeef2e610db7245b698"
-    source = "https://github.com/sbt/sbt/archive/refs/tags/v1.13.0.tar.gz"
-    source-checksum = "sha256:8d9e34e9f7e3c811e3151d2dd0972a540880878f29a90858b5cf485fcfd5d52b"
+    purl = "pkg:generic/sbt@1.13.1"
+    sha256 = "4a20e36c1642b6d5be34ef641d2ed6c8c0d464e6145283730d5566716e4083be"
+    source = "https://github.com/sbt/sbt/archive/refs/tags/v1.13.1.tar.gz"
+    source-checksum = "sha256:fc9a2cf671a8eb7e63e3ceffb9b3bb83273ca6b519464870a6e48415e8f3cc12"
     stacks = ["io.buildpacks.stacks.bionic", "io.paketo.stacks.tiny", "*"]
-    uri = "https://github.com/sbt/sbt/releases/download/v1.13.0/sbt-1.13.0.tgz"
-    version = "1.13.0"
+    uri = "https://github.com/sbt/sbt/releases/download/v1.13.1/sbt-1.13.1.tgz"
+    version = "1.13.1"
 
     [[metadata.dependencies.licenses]]
       type = "Apache-2.0"
       uri = "https://github.com/sbt/sbt/blob/develop/LICENSE"
 
   [[metadata.dependencies]]
-    checksum = "sha256:d8409a244e97c3839f27c4f435f49421196c126a450d30f4cf53522d39e3c379"
-    cpe = "cpe:2.3:a:lightbend:sbt:2.0.11:*:*:*:*:*:*:*"
+    checksum = "sha256:54f99416b027f201d881326075bf85f20680d8c3f2b09415584829e868b34999"
+    cpe = "cpe:2.3:a:lightbend:sbt:2.1.1:*:*:*:*:*:*:*"
     id = "sbt"
     name = "Scala SBT"
-    purl = "pkg:generic/sbt@2.0.11"
-    sha256 = "d8409a244e97c3839f27c4f435f49421196c126a450d30f4cf53522d39e3c379"
-    source = "https://github.com/sbt/sbt/archive/refs/tags/v2.0.11.tar.gz"
-    source-checksum = "sha256:f42faf398a6919bbbd37aa3db2d6d5c580883e6dc88bb2ee889e8ee33d104801"
+    purl = "pkg:generic/sbt@2.1.1"
+    sha256 = "54f99416b027f201d881326075bf85f20680d8c3f2b09415584829e868b34999"
+    source = "https://github.com/sbt/sbt/archive/refs/tags/v2.1.1.tar.gz"
+    source-checksum = "sha256:37dfdf61a1a751d5fd28164ceae7da5ed79206743415a757d2e5b2838bfdd2f7"
     stacks = ["io.buildpacks.stacks.bionic", "io.paketo.stacks.tiny", "*"]
-    uri = "https://github.com/sbt/sbt/releases/download/v2.0.11/sbt-2.0.11.tgz"
-    version = "2.0.11"
+    uri = "https://github.com/sbt/sbt/releases/download/v2.1.1/sbt-2.1.1.tgz"
+    version = "2.1.1"
 
     [[metadata.dependencies.licenses]]
       type = "Apache-2.0"
